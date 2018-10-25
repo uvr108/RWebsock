@@ -14,7 +14,7 @@ ws_port=os.environ['ws_port']
 
 conn = r.connect(host=rt_host, port=rt_port, db=rt_db)
 
-from collector import collector
+from collector import main 
 
 class RWebsock(socketserver.StreamRequestHandler):
 
@@ -22,8 +22,8 @@ class RWebsock(socketserver.StreamRequestHandler):
         # self.rfile is a file-like object created by the handler;
         # we can now use e.g. readline() instead of raw recv() calls
         self.data = self.rfile.readline().strip()
-        print("{} wrote:".format(self.client_address[0]))
-        print(self.data)
+        #print("{} wrote:".format(self.client_address[0]))
+        #print(self.data)
         # Likewise, self.wfile is a file-like object used to write back
         # to the client
 
@@ -31,7 +31,7 @@ class RWebsock(socketserver.StreamRequestHandler):
             pass
         else: 
             #self.wfile.write(collector(r,self.data))
-            self.wfile.write(asyncio.run(collector(r,self.data)))
+            self.wfile.write(asyncio.run(main(r,self.data)))
             #self.wfile.write(self.data.upper())
 
 
