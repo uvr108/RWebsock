@@ -8,4 +8,4 @@ data/
 lib/
 migrar.py
 test.pl
-
+*.erase
