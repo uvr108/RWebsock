@@ -1,15 +1,22 @@
 import json
 import rethinkdb as r
 
+rt_host='127.0.0.1'
+rt_port='28015'
+rt_db='csn'
+
+conn = r.connect(host=rt_host, port=rt_port, db=rt_db)
+
 with open('triggers.json') as f:
     data = json.load(f)
 
-keys = ["action","ano_sfile","dep","dia_sfile","email_origen","epoch","fecha_utc","id","latitud","longitud","m1_magnitud","m1_tipo","m20","m5","mes_sfile","no","operator","origen","pup","retardo","sensible","sfile","tipo_estadistica","version"]
 
 for js in data:
     out={} 
     
-    """
+    for p,k in js.items():
+        if p=='action':
+            out.update({p:k.replace(' ','')})
         elif p=='ano_sfile':
             out.update({p:k})
         elif p=='dep':
@@ -41,8 +48,6 @@ for js in data:
             out.update({p:int(k)})
         elif p=='operator':
             out.update({p:k})
-        elif p=='origen':
-            out.update({p:k})
         elif p=='pup':
             out.update({p:k})
         elif p=='retardo':
@@ -51,10 +56,13 @@ for js in data:
             out.update({p:k})
         elif p=='tipo_estadistica':
             out.update({p:k})
-    """
-    for p,k in js.items():
-        if p=='action':
-            out.update({p:k.replace(' ','')})
         elif p=='version':
-            out.update({p:k*1})
-    print(out) 
+            out.update({p:int(k)})
+        elif p=='origen':
+            out.update({p:"seisan2"})
+        elif p=='no':
+            out.update({p:int(k)})
+    
+    r.table('triggers').insert(out).run(conn)
+
+    #conn.close() 
