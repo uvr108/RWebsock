@@ -5,8 +5,6 @@ import json
 
 import asyncio
 
-from rthkdb.continuos import Continuos
-
 rt_host=os.environ['rt_host']
 rt_port=os.environ['rt_port']
 rt_db=os.environ['rt_db']
