@@ -97,12 +97,12 @@ async def main(r,data):
     bdata = data.decode('utf8').split('|') 
 
     if bdata[0] == 'version':
-        return await version(r,bdata,'prueba')
+        return await version(r,bdata,'triggers')
         #return b'1' 
     elif bdata[0] == 'preliminar':
-        return await preliminar(r,bdata,'prueba')
+        return await preliminar(r,bdata,'triggers')
     elif bdata[0] == 'ingresar':
-        return await ingresar(r,bdata,'prueba')    
+        return await ingresar(r,bdata,'triggers')    
 
 
 if __name__ == "__main__":
