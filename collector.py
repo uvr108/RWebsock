@@ -33,7 +33,8 @@ async def version(r,bdata,table):
             if tipo == 'final':
 
                 where.update({'pup':'yes'})
-            kw={'table':table,'update':{'setea':{'email_origen': delay}, 'where': where,'indice':{'anomes':{'ano_sfile': int(yr), 'mes_sfile': int(mo)}}}};
+
+            kw={'table':table,'option': 'update', 'setea': {'email_origen': delay}, 'where': where,'indice':{'anomes':{'ano_sfile': int(yr), 'mes_sfile': int(mo)}}};
 
     elif sensible == 'yes':
 
@@ -85,8 +86,10 @@ async def ingresar(r,bdata,table):
 
 def consultar(r,kw):
 
-    cons = Continuos()
+    cons = Continuos(conn)
+    kw = {'message': kw}
     cons.ejecutar(r,**kw)
+    print('kw XXX  : ',kw)
     output=cons.output
     cons.__del__()
 
@@ -95,7 +98,7 @@ def consultar(r,kw):
 async def main(r,data):
 
     bdata = data.decode('utf8').split('|') 
-
+    print('bdata[0] : ',bdata[0])
     if bdata[0] == 'version':
         return await version(r,bdata,'triggers')
         #return b'1' 
