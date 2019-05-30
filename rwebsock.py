@@ -1,18 +1,13 @@
 import socketserver
-import rethinkdb as r
 import os
 import json
 
 import asyncio
 
-rt_host=os.environ['rt_host']
-rt_port=os.environ['rt_port']
-rt_db=os.environ['rt_db']
-ws_port=os.environ['ws_port']
+sk_host=os.environ['sk_host']
+sk_port=os.environ['sk_port']
 
-conn = r.connect(host=rt_host, port=rt_port, db=rt_db)
-
-from collector import main 
+from collector import ejecuta 
 
 class RWebsock(socketserver.StreamRequestHandler):
 
@@ -20,27 +15,35 @@ class RWebsock(socketserver.StreamRequestHandler):
         # self.rfile is a file-like object created by the handler;
         # we can now use e.g. readline() instead of raw recv() calls
         self.data = self.rfile.readline().strip()
-        #print("{} wrote:".format(self.client_address[0]))
-        #print(self.data)
+        print("{} wrote:".format(self.client_address[0]))
         # Likewise, self.wfile is a file-like object used to write back
         # to the client
-
+        
         if self.data == b'':
             pass
         else: 
-            #self.wfile.write(collector(r,self.data))
-            self.wfile.write(asyncio.run(main(r,self.data)))
-            #self.wfile.write(self.data.upper())
+            self.wfile.write(b'Que grande eres Uli !!!')
+            vector =  self.data.decode('utf8').split('|')
+            
+            if vector[0] == 'ingresar':
+
+                dictio = {'version': vector[1], 'epoch':vector[2],'action':vector[3],'operator':vector[4]}
+                dictio.update({'retardo':vector[5],'email_origen':vector[6],'sensible':vector[7],'sfile':vector[8]})
+                dictio.update({'tipo_estadistica':vector[9],'latitud':vector[10],'longitud':vector[11],'dep':vector[12],'m1_magnitud':vector[13],'m1_tipo':vector[14]})
+                dictio.update({'fecha_origen':vector[15],'pup':vector[16],'m5':vector[17],'m20':vector[18]})
+                dictio.update({'origen':vector[19],'no':vector[20]})
+
+            elif vector[0] == 'modificar':
+
+                dictio = {'sf':vector[1],'tipo':vector[2],'email':vector[3],'delay':vector[4],'sensible':vector[5]}
+            
+            asyncio.run(ejecuta(vector[0], {vector[0]: dictio}))
+
+if  __name__ == "__main__":
 
 
-if __name__ == "__main__":
 
-
-    #collector(r,**kw)
-
-    HOST, PORT = rt_host , int(ws_port) 
-
-    #print(query(r,**kw))   
+    HOST, PORT = sk_host , int(sk_port) 
 
     # Create the server, binding to localhost on port 9999
     with socketserver.TCPServer((HOST, PORT), RWebsock) as server:
