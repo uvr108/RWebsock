@@ -2,7 +2,6 @@ import socketserver
 import rethinkdb as r
 import os
 import json
-#import logging
 import asyncio
 
 from rthkdb.continuos import Continuos
@@ -11,103 +10,52 @@ rt_host=os.environ['rt_host']
 rt_port=os.environ['rt_port']
 rt_db=os.environ['rt_db']
 
-conn = r.connect(host=rt_host, port=rt_port, db=rt_db)
+def isNone(v, func=None):
 
-async def version(r,bdata,table):
+    if v=='None':
+        return None 
+    else:
+        if func == None:
+            return v
+        else:
+            return comandos.get(func)(v) 
 
-    sfile = bdata[1]
-    yr = bdata[2]
-    mo = bdata[3]
-    tipo = bdata[4]
-    email = bdata[5]
-    delay = float(bdata[6])
-    sensible = bdata[7]
+async def modificar(dictio):
 
-    if sensible == 'no':
-        if email == 'no' and sensible == 'no':
-            kw={'table':table,'get_all':{'flag':'count','where': {'sfile': sfile },'indice':{'anomes':{'ano_sfile': int(yr), 'mes_sfile': int(mo)}}}};
+    print(dictio)
 
-        elif email == 'yes' and sensible == 'no':
-            where = {'sfile': sfile,'tipo_estadistica':tipo }
+async def ingresar(dictio):
 
-            if tipo == 'final':
+    dictio['version'] = isNone(dictio['version'],'int')
+    dictio['epoch'] = isNone(dictio['epoch'],'int')
+    dictio['no'] = isNone(dictio['no'],'int')
+    
+    dictio['retardo'] = isNone(dictio['retardo'],'float')
+    dictio['email_origen'] = isNone(dictio['email_origen'],'float')
+    dictio['latitud'] = isNone(dictio['latitud'],'float')
+    dictio['longitud'] = isNone(dictio['longitud'],'float')
+    dictio['dep'] = isNone(dictio['dep'],'float')
+    dictio['m1_magnitud'] = isNone(dictio['m1_magnitud'],'float')
+    
+    dictio['fecha_origen'] = r.iso8601(dictio['fecha_origen'])
 
-                where.update({'pup':'yes'})
+    dictio['m5'] = isNone(dictio['m5'])
+    dictio['m20'] = isNone(dictio['m20'])
+    dictio['pup'] = isNone(dictio['pup'])
+    dictio['sensible'] = isNone(dictio['sensible'])
 
-            kw={'table':table,'option': 'update', 'setea': {'email_origen': delay}, 'where': where,'indice':{'anomes':{'ano_sfile': int(yr), 'mes_sfile': int(mo)}}};
+    dictio['operator'] = dictio['operator'].strip()
 
-    elif sensible == 'yes':
+    con = Continuos()
+    con.ingresar('triggers', dictio)
+    del(con)   
 
-        kw={'table':table,'update':{'setea':{'sensible': 'yes'}, 'where': { 'sfile': sfile,'tipo_estadistica': 'final', 'pup' : 'yes' },'indice':{'anomes':{'ano_sfile': int(yr), 'mes_sfile': int(mo)}}}}
+comandos = {'ingresar': ingresar, 'modificar': modificar, 'float': float, 'int': int}
 
-    return consultar(r,kw) 
-
-
-async def preliminar(r,bdata,table):
-
-
-    nombre = bdata[1]
-    yr = bdata[2]
-    mo = bdata[3]
-      
-    kw={'table':table,'get_all':{'flag':'count','where': {'sfile': nombre,'tipo_estadistica':'preliminar' },'indice':{'anomes':{'ano_sfile': int(yr), 'mes_sfile': int(mo)}}}};
-    return consultar(r,kw)
-
-async def ingresar(r,bdata,table):
-
-    ins = {}
-
-    for a in  bdata:
-        if a == '':
-            pass
-        else: 
-            out = a.split(':')
-            if out[0] == 'ingresar':
-                pass
-            else:
-
-                valor = out[1].split(';')
-
-                if valor[0] == 'None':
-                    valor[0]=None 
-                elif valor[1] == 'float':
-                    valor[0]=float(valor[0])
-                elif valor[1] == 'int': 
-                    valor[0]=int(valor[0])
-                elif valor[1] == 'datetime': 
-                    valor[0]=valor[0].replace(' ','T')+"+00"
-                    valor[0]=valor[0].replace('=',':')
-                    valor[0]=r.iso8601(valor[0])
-
-                ins.update({out[0]:valor[0]})
-    r.table(table).insert(ins).run(conn)
-
-    return b'1'
-
-def consultar(r,kw):
-
-    cons = Continuos(conn)
-    kw = {'message': kw}
-    cons.ejecutar(r,**kw)
-    print('kw XXX  : ',kw)
-    output=cons.output
-    cons.__del__()
-
-    return str(output).encode('utf8')
-
-async def main(r,data):
-
-    bdata = data.decode('utf8').split('|') 
-    print('bdata[0] : ',bdata[0])
-    if bdata[0] == 'version':
-        return await version(r,bdata,'triggers')
-        #return b'1' 
-    elif bdata[0] == 'preliminar':
-        return await preliminar(r,bdata,'triggers')
-    elif bdata[0] == 'ingresar':
-        return await ingresar(r,bdata,'triggers')    
-
-
+async def ejecuta(functio,dictio):
+  
+    await comandos.get(functio)(dictio[functio])
+ 
 if __name__ == "__main__":
 
     pass
