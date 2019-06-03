@@ -20,9 +20,14 @@ def isNone(v, func=None):
         else:
             return comandos.get(func)(v) 
 
-async def modificar(dictio):
+async def modificar(table, dictio):
 
+    {'sf':vector[1], 'yr':vector[2], 'mo':vector[3], 'tipo':vector[4], 'email':vector[5], 'delay':vector[6], 'sensible':vector[7]} 
     print(dictio)
+
+    where = {}
+    setea = {}
+    table = {}
 
 async def ingresar(dictio):
 
@@ -38,6 +43,10 @@ async def ingresar(dictio):
     dictio['m1_magnitud'] = isNone(dictio['m1_magnitud'],'float')
     
     dictio['fecha_origen'] = r.iso8601(dictio['fecha_origen'])
+
+    dictio['ano_sfile'] = r.iso8601(dictio['ano_sfile'],'int')
+    dictio['mes_sfile'] = r.iso8601(dictio['mes_sfile'],'int')
+    dictio['dia_sfile'] = r.iso8601(dictio['dia_sfile'],'int')
 
     dictio['m5'] = isNone(dictio['m5'])
     dictio['m20'] = isNone(dictio['m20'])
