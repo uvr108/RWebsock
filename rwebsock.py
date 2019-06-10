@@ -26,7 +26,7 @@ class RWebsock(socketserver.StreamRequestHandler):
             self.wfile.write(b'Que grande eres Uli !!!')
             vector =  self.data.decode('utf8').split('|')
         
-            print(vector)
+            print(f'vector: {vector} ')
             
             if vector[0] == 'ingresar':
 
