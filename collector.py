@@ -20,14 +20,17 @@ def isNone(v, func=None):
         else:
             return comandos.get(func)(v) 
 
-async def modificar(table, dictio):
+async def modificar(dictio):
 
-    {'sf':vector[1], 'yr':vector[2], 'mo':vector[3], 'tipo':vector[4], 'email':vector[5], 'delay':vector[6], 'sensible':vector[7]} 
-    print(dictio)
+    # 'dictio': {'sf': '11-1607-03L.S201906', 'yr': '2019', 'mo': '6', 'tipo': 'preliminar', 'email': 'yes', 'delay': '10.9', 'sensible': 'no'}
 
-    where = {}
-    setea = {}
-    table = {}
+    dictio['yr'] = isNone(dictio['yr'],'int') 
+    dictio['mo'] = isNone(dictio['mo'],'int') 
+    dictio['delay'] = isNone(dictio['delay'],'float')
+ 
+    con = Continuos()
+    con.ejecutar({'message':{'table':'analisis','option':'update', 'dictio': dictio}})
+    del(con)   
 
 async def ingresar(dictio):
 
@@ -44,19 +47,19 @@ async def ingresar(dictio):
     
     dictio['fecha_origen'] = r.iso8601(dictio['fecha_origen'])
 
-    dictio['ano_sfile'] = r.iso8601(dictio['ano_sfile'],'int')
-    dictio['mes_sfile'] = r.iso8601(dictio['mes_sfile'],'int')
-    dictio['dia_sfile'] = r.iso8601(dictio['dia_sfile'],'int')
+    dictio['ano_sfile'] = isNone(dictio['ano_sfile'],'int')
+    dictio['mes_sfile'] = isNone(dictio['mes_sfile'],'int')
+    dictio['dia_sfile'] = isNone(dictio['dia_sfile'],'int')
 
     dictio['m5'] = isNone(dictio['m5'])
     dictio['m20'] = isNone(dictio['m20'])
-    dictio['pup'] = isNone(dictio['pup'])
+    dictio['up'] = isNone(dictio['up'])
     dictio['sensible'] = isNone(dictio['sensible'])
 
     dictio['operator'] = dictio['operator'].strip()
-
+    # print(f'dictio : {dictio}')
     con = Continuos()
-    con.ingresar('triggers', dictio)
+    con.ejecutar({'message':{'table':'analisis','option':'insert', 'dictio': dictio}})
     del(con)   
 
 comandos = {'ingresar': ingresar, 'modificar': modificar, 'float': float, 'int': int}
