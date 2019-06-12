@@ -20,18 +20,12 @@ if __name__ == "__main__":
 
     """
 
-    kw = {'message':{'table': 'informes', 'option': 'select'}}
+    kw = {'message':{'table': 'analisis', 'option': 'select'}}
 
-    """
 
-    indice = {'anomes':[2019,5]}
+    kw['message'].update({'indice': [[2019,6],'anomes']})
+    kw['message'].update({'count': True})
 
-    val = [*indice.values()][0]
-    inx = [*indice.keys()][0]
-    ind = [val,inx]
-
-    kw['message'].update({'indice': ind})
-    """
     """
     between = [['2019','001'],['2019','015'],'yrjl']
 
@@ -83,15 +77,19 @@ if __name__ == "__main__":
 
     """
 
+    """
     kw['message'].update({'pluck':['fecha_origen','zona']})
     # kw['message'].update({'limit': 100})
     # kw['message'].update({'or':{'zona':['Norte','N.Chico','Zona.C','Sur','Valpo','Ext.S']}})
     kw['message'].update({'or':{'zona':['Valpo']}})
+    """
 
     cons = Continuos()
 
-    data = cons.ejecutar(kw)
+    data = cons.consultar(kw)
     del(cons)
 
-    for d in data:
-        print(d)
+    print(data)
+
+    # for d in data:
+    #    print(d)
