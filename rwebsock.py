@@ -37,7 +37,7 @@ class RWebsock(socketserver.StreamRequestHandler):
 
             elif vector[0] == 'modificar':
 
-                dictio = {'sf':vector[1], 'yr':vector[2], 'mo':vector[3], 'tipo':vector[4], 'email':vector[5], 'delay':vector[6], 'sensible':vector[7]} 
+                dictio = {'sfile':vector[1], 'yr':vector[2], 'mo':vector[3], 'tipo_estadistica':vector[4], 'email_origen':vector[5],'sensible':vector[6]} 
             
             asyncio.run(ejecuta(vector[0], {vector[0]: dictio}))
 
