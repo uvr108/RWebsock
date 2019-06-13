@@ -22,11 +22,12 @@ def isNone(v, func=None):
 
 async def modificar(dictio):
 
-    # 'dictio': {'sf': '11-1607-03L.S201906', 'yr': '2019', 'mo': '6', 'tipo': 'preliminar', 'email': 'yes', 'delay': '10.9', 'sensible': 'no'}
+    # 'dictio': {'sfile': '11-1607-03L.S201906', 'yr': '2019', 'mo': '6', 'tipo_estadistica': 'preliminar', 'email_origen': '10.9', 'sensible': 'None'}
 
     dictio['yr'] = isNone(dictio['yr'],'int') 
     dictio['mo'] = isNone(dictio['mo'],'int') 
-    dictio['delay'] = isNone(dictio['delay'],'float')
+    dictio['email_origen'] = isNone(dictio['email_origen'],'float')
+    dictio['sensible'] = isNone(dictio['sensible'])
  
     con = Continuos()
     con.ejecutar({'message':{'table':'analisis','option':'update', 'dictio': dictio}})
