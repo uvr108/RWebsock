@@ -20,6 +20,21 @@ def isNone(v, func=None):
         else:
             return comandos.get(func)(v) 
 
+def isTrue(v):
+    if v == 'true':
+        return True;
+    else:
+        return None;
+
+async def sensible(dictio):
+
+    dictio['yr'] = isNone(dictio['yr'],'int') 
+    dictio['mo'] = isNone(dictio['mo'],'int') 
+
+    con = Continuos()
+    con.ejecutar({'message':{'table':'analisis','option':'sensible', 'dictio': dictio}})
+    del(con)   
+
 async def modificar(dictio):
 
     # 'dictio': {'sfile': '11-1607-03L.S201906', 'yr': '2019', 'mo': '6', 'tipo_estadistica': 'preliminar', 'email_origen': '10.9', 'sensible': 'None'}
@@ -38,7 +53,10 @@ async def ingresar(dictio):
     dictio['version'] = isNone(dictio['version'],'int')
     dictio['epoch'] = isNone(dictio['epoch'],'int')
     dictio['no'] = isNone(dictio['no'],'int')
-    
+   
+    dictio['m5'] = isTrue(dictio['m5'])
+    dictio['m20'] = isTrue(dictio['m20'])
+ 
     dictio['retardo'] = isNone(dictio['retardo'],'float')
     dictio['email_origen'] = isNone(dictio['email_origen'],'float')
     dictio['latitud'] = isNone(dictio['latitud'],'float')
@@ -58,12 +76,12 @@ async def ingresar(dictio):
     dictio['sensible'] = isNone(dictio['sensible'])
 
     dictio['operator'] = dictio['operator'].strip()
-    # print(f'dictio : {dictio}')
+    
     con = Continuos()
     con.ejecutar({'message':{'table':'analisis','option':'insert', 'dictio': dictio}})
     del(con)   
 
-comandos = {'ingresar': ingresar, 'modificar': modificar, 'float': float, 'int': int}
+comandos = {'ingresar': ingresar, 'modificar': modificar, 'sensible': sensible, 'float': float, 'int': int}
 
 async def ejecuta(functio,dictio):
   
