@@ -39,6 +39,10 @@ class RWebsock(socketserver.StreamRequestHandler):
 
                 dictio = {'sfile':vector[1], 'yr':vector[2], 'mo':vector[3], 'tipo_estadistica':vector[4], 'email_origen':vector[5],'sensible':vector[6]} 
             
+            elif vector[0] == 'sensible':
+
+                dictio = {'sfile':vector[1], 'yr':vector[2], 'mo':vector[3]}
+
             asyncio.run(ejecuta(vector[0], {vector[0]: dictio}))
 
 if  __name__ == "__main__":
