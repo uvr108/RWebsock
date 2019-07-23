@@ -78,6 +78,7 @@ async def ingresar(dictio):
     dictio['operator'] = dictio['operator'].strip()
     
     con = Continuos()
+    # print(dictio)
     con.ejecutar({'message':{'table':'analisis','option':'insert', 'dictio': dictio}})
     del(con)   
 
