@@ -10,3 +10,6 @@ lib/
 migrar.py
 test.pl
 *.erase
+prueba.py
+server.py
+.gitignore
