@@ -23,7 +23,7 @@ class RWebsock(socketserver.StreamRequestHandler):
         if self.data == b'':
             pass
         else: 
-            self.wfile.write(b'Que grande eres Uli !!!')
+            self.wfile.write(b'QgeUi !!!')
             vector =  self.data.decode('utf8').split('|')
         
             
