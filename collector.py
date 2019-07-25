@@ -24,7 +24,7 @@ def isTrue(v):
     if v == 'true':
         return True;
     else:
-        return None;
+        return False;
 
 async def sensible(dictio):
 
@@ -56,6 +56,7 @@ async def ingresar(dictio):
    
     dictio['m5'] = isTrue(dictio['m5'])
     dictio['m20'] = isTrue(dictio['m20'])
+    dictio['sensible'] = isTrue(dictio['sensible'])
  
     dictio['retardo'] = isNone(dictio['retardo'],'float')
     dictio['email_origen'] = isNone(dictio['email_origen'],'float')
@@ -73,7 +74,7 @@ async def ingresar(dictio):
     dictio['m5'] = isNone(dictio['m5'])
     dictio['m20'] = isNone(dictio['m20'])
     dictio['up'] = isNone(dictio['up'])
-    dictio['sensible'] = isNone(dictio['sensible'])
+    # dictio['sensible'] = isNone(dictio['sensible'])
 
     dictio['operator'] = dictio['operator'].strip()
     
