@@ -24,7 +24,7 @@ def isTrue(v):
     if v == 'true':
         return True;
     else:
-        return False;
+        return None;
 
 async def sensible(dictio):
 
@@ -42,7 +42,7 @@ async def modificar(dictio):
     dictio['yr'] = isNone(dictio['yr'],'int') 
     dictio['mo'] = isNone(dictio['mo'],'int') 
     dictio['email_origen'] = isNone(dictio['email_origen'],'float')
-    dictio['sensible'] = isNone(dictio['sensible'])
+    dictio['sensible'] = isTrue(dictio['sensible'])
  
     con = Continuos()
     con.ejecutar({'message':{'table':'analisis','option':'update', 'dictio': dictio}})
@@ -54,16 +54,13 @@ async def ingresar(dictio):
     dictio['epoch'] = isNone(dictio['epoch'],'int')
     dictio['no'] = isNone(dictio['no'],'int')
    
-    dictio['m5'] = isTrue(dictio['m5'])
-    dictio['m20'] = isTrue(dictio['m20'])
-    dictio['sensible'] = isTrue(dictio['sensible'])
- 
     dictio['retardo'] = isNone(dictio['retardo'],'float')
     dictio['email_origen'] = isNone(dictio['email_origen'],'float')
     dictio['latitud'] = isNone(dictio['latitud'],'float')
     dictio['longitud'] = isNone(dictio['longitud'],'float')
     dictio['dep'] = isNone(dictio['dep'],'float')
     dictio['m1_magnitud'] = isNone(dictio['m1_magnitud'],'float')
+    dictio['up'] = isNone(dictio['up'],'int')
     
     dictio['fecha_origen'] = r.iso8601(dictio['fecha_origen'])
 
@@ -71,10 +68,9 @@ async def ingresar(dictio):
     dictio['mes_sfile'] = isNone(dictio['mes_sfile'],'int')
     dictio['dia_sfile'] = isNone(dictio['dia_sfile'],'int')
 
-    dictio['m5'] = isNone(dictio['m5'])
-    dictio['m20'] = isNone(dictio['m20'])
-    dictio['up'] = isNone(dictio['up'])
-    # dictio['sensible'] = isNone(dictio['sensible'])
+    dictio['m5'] = isTrue(dictio['m5'])
+    dictio['m20'] = isTrue(dictio['m20'])
+    dictio['sensible'] = isTrue(dictio['sensible'])
 
     dictio['operator'] = dictio['operator'].strip()
     
