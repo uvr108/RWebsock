@@ -23,7 +23,7 @@ class RWebsock(socketserver.StreamRequestHandler):
         if self.data == b'':
             pass
         else: 
-            self.wfile.write(b'QgeUi !!!')
+            self.wfile.write(b'Jay !')
             vector =  self.data.decode('utf8').split('|')
         
             
@@ -45,7 +45,7 @@ class RWebsock(socketserver.StreamRequestHandler):
                 dictio.update({'tipo_estadistica':vector[9],'latitud':vector[10],'longitud':vector[11],'dep':vector[12],'m1_magnitud':vector[13],'m1_tipo':vector[14]})
                 dictio.update({'fecha_origen':vector[15],'ano_sfile':vector[16],'mes_sfile':vector[17],'dia_sfile':vector[18],'up':vector[19],'m5':vector[20],'m20':vector[21]})
                 dictio.update({'origen':vector[22],'no':vector[23]})
-
+                # print(dictio)
             elif vector[0] == 'modificar':
 
                 dictio = {'sfile':vector[1], 'yr':vector[2], 'mo':vector[3], 'tipo_estadistica':vector[4], 'email_origen':vector[5],'sensible':vector[6]} 
