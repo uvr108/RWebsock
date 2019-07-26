@@ -71,6 +71,7 @@ async def ingresar(dictio):
     dictio['m5'] = isTrue(dictio['m5'])
     dictio['m20'] = isTrue(dictio['m20'])
     dictio['sensible'] = isTrue(dictio['sensible'])
+    dictio['ok_envio_email'] = isTrue(dictio['ok_envio_email'])
 
     dictio['operator'] = dictio['operator'].strip()
     
