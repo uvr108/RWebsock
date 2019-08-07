@@ -40,16 +40,18 @@ class RWebsock(socketserver.StreamRequestHandler):
 
                 oid = f'{yr}{mo}{da}{hr}{mi}{se}'
 
+                """
                 if vector[6] == None:
                     ok_envio_email = None
                 else:
                     ok_envio_email = 'true' 
+                """
 
                 dictio = {'version': vector[1], 'epoch':vector[2],'action':vector[3],'operator':vector[4],'oid': oid}
                 dictio.update({'retardo':vector[5],'email_origen':vector[6],'sensible':vector[7],'sfile':vector[8]})
                 dictio.update({'tipo_estadistica':vector[9],'latitud':vector[10],'longitud':vector[11],'dep':vector[12],'m1_magnitud':vector[13],'m1_tipo':vector[14]})
                 dictio.update({'fecha_origen':vector[15],'ano_sfile':vector[16],'mes_sfile':vector[17],'dia_sfile':vector[18],'up':vector[19],'m5':vector[20],'m20':vector[21]})
-                dictio.update({'origen':vector[22],'no':vector[23],'ok_envio_email': ok_envio_email})
+                dictio.update({'origen':vector[22],'no':vector[23]})
                 print(dictio)
             elif vector[0] == 'modificar':
 
