@@ -38,7 +38,7 @@ class RWebsock(socketserver.StreamRequestHandler):
                 yr = sf[13:17]
                 mo = sf[17:21]
                 
-                if vector[6] == 0: # email_origen
+                if vector[6] == '0': # email_origen
                     vector[6] = None
 
                 oid = f'{yr}{mo}{da}{hr}{mi}{se}'
