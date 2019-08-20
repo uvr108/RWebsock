@@ -41,7 +41,7 @@ async def modificar(dictio):
 
     dictio['yr'] = isNone(dictio['yr'],'int') 
     dictio['mo'] = isNone(dictio['mo'],'int') 
-    dictio['email_origen'] = isNone(dictio['email_origen'],'float')
+    # dictio['email_origen'] = isNone(dictio['email_origen'],'float')
     dictio['sensible'] = isTrue(dictio['sensible'])
  
     con = Continuos()
@@ -55,7 +55,7 @@ async def ingresar(dictio):
     dictio['no'] = isNone(dictio['no'],'int')
    
     dictio['retardo'] = isNone(dictio['retardo'],'float')
-    dictio['email_origen'] = isNone(dictio['email_origen'],'float')
+    # dictio['email_origen'] = isNone(dictio['email_origen'],'float')
     dictio['latitud'] = isNone(dictio['latitud'],'float')
     dictio['longitud'] = isNone(dictio['longitud'],'float')
     dictio['dep'] = isNone(dictio['dep'],'float')
